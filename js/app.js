@@ -72,6 +72,8 @@ const ui = {
   updateWeightForm: document.getElementById("updateWeightForm"),
   searchNodeForm: document.getElementById("searchNodeForm"),
   scenarioButtons: document.querySelectorAll("[data-scenario]"),
+  btnComputeMST: document.getElementById("btnComputeMST"),
+  btnDetectAnomaly: document.getElementById("btnDetectAnomaly"),
   addFrom: document.getElementById("addFrom"),
   addTo: document.getElementById("addTo"),
   addWeight: document.getElementById("addWeight"),
@@ -402,6 +404,18 @@ function handleSearch(event) {
   renderAll();
 }
 
+function handleComputeMST() {
+  state.mst = computeMST(graph);
+  state.statusMessage = `computeMST() returned ${state.mst.edges.length} edge(s), total weight ${state.mst.totalWeight}.`;
+  renderAll();
+}
+
+function handleDetectAnomaly() {
+  state.anomalies = detectAnomaly(graph);
+  state.statusMessage = `detectAnomaly() found ${state.anomalies.length} cursed edge(s).`;
+  renderAll();
+}
+
 function handleScenario(event) {
   const name = event.currentTarget.dataset.scenario;
   loadEdges(scenarios[name], `Scenario loaded: ${event.currentTarget.textContent.trim()}.`);
@@ -411,6 +425,8 @@ ui.addEdgeForm.addEventListener("submit", handleAdd);
 ui.removeEdgeForm.addEventListener("submit", handleRemove);
 ui.updateWeightForm.addEventListener("submit", handleUpdate);
 ui.searchNodeForm.addEventListener("submit", handleSearch);
+ui.btnComputeMST.addEventListener("click", handleComputeMST);
+ui.btnDetectAnomaly.addEventListener("click", handleDetectAnomaly);
 ui.scenarioButtons.forEach((button) => button.addEventListener("click", handleScenario));
 
 loadEdges(initialEdges, "Started with only the 2 sample PDF edges.");

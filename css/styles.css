@@ -29,7 +29,7 @@ body {
   align-items: center;
   gap: 20px;
   justify-content: space-between;
-  padding: 18px 28px;
+  padding: 10px 18px;
   border-bottom: 2px solid var(--text);
   background: var(--panel);
   flex-wrap: wrap;
@@ -37,22 +37,22 @@ body {
 
 .topbar h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 800;
 }
 
 .subtitle {
-  margin: 6px 0 0;
+  margin: 3px 0 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .legend {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   flex-wrap: wrap;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .legend span {
@@ -89,12 +89,13 @@ body {
 
 .layout {
   display: grid;
-  grid-template-columns: 350px 1fr 360px;
-  min-height: calc(100vh - 82px);
+  grid-template-columns: 300px minmax(460px, 1fr) 330px;
+  height: calc(100vh - 58px);
+  overflow: hidden;
 }
 
 .panel {
-  padding: 22px;
+  padding: 12px;
   border-right: 1px solid var(--border);
   overflow-y: auto;
 }
@@ -105,19 +106,19 @@ body {
 }
 
 .panel h2 {
-  margin: 0 0 14px;
-  padding-bottom: 10px;
+  margin: 0 0 8px;
+  padding-bottom: 6px;
   border-bottom: 2px solid var(--text);
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .block {
-  margin-bottom: 18px;
+  margin-bottom: 10px;
 }
 
 .block h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
+  margin: 0 0 6px;
+  font-size: 15px;
 }
 
 .row {
@@ -132,25 +133,25 @@ body {
 .scenario-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 6px;
 }
 
 label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 label span {
   display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
+  margin-bottom: 3px;
+  font-size: 12px;
   color: var(--muted);
 }
 
 input,
 select {
   width: 100%;
-  padding: 12px 14px;
+  padding: 7px 9px;
   border: 2px solid var(--border);
   border-radius: 4px;
   background: #ffffff;
@@ -166,7 +167,8 @@ select:focus {
 
 button {
   width: 100%;
-  padding: 14px 18px;
+  min-height: 34px;
+  padding: 7px 8px;
   border-radius: 4px;
   border: 2px solid transparent;
   cursor: pointer;
@@ -208,7 +210,7 @@ button {
 }
 
 .message {
-  padding: 12px 14px;
+  padding: 8px 10px;
   border: 1px solid var(--border);
   border-left: 4px solid var(--green);
   background: #f7f7f7;
@@ -227,26 +229,31 @@ button {
 }
 
 .graph-stage {
-  padding: 12px;
-  margin-bottom: 18px;
+  padding: 8px;
+  margin-bottom: 10px;
 }
 
 .mini-graph-stage {
-  padding: 10px;
-  margin-top: 12px;
+  padding: 6px;
+  margin-top: 8px;
 }
 
-#graphSvg,
+#graphSvg {
+  width: 100%;
+  height: min(62vh, 620px);
+  display: block;
+}
+
 #mstSvg {
   width: 100%;
-  aspect-ratio: 1;
+  height: 180px;
   display: block;
 }
 
 .inspector {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 14px;
+  gap: 6px 10px;
 }
 
 .inspector strong {
@@ -263,12 +270,12 @@ button {
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .stat-box {
-  padding: 14px;
+  padding: 8px;
   border: 1px solid var(--border);
   background: #f7f7f7;
 }
@@ -276,13 +283,13 @@ button {
 .stat-box span {
   display: block;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .stat-box strong {
   display: block;
-  margin-top: 6px;
-  font-size: 28px;
+  margin-top: 3px;
+  font-size: 22px;
 }
 
 .title-row {
@@ -309,13 +316,15 @@ button {
 .data-list {
   list-style: none;
   padding: 0;
-  margin: 14px 0 0;
+  margin: 8px 0 0;
   display: grid;
-  gap: 10px;
+  gap: 6px;
+  max-height: 120px;
+  overflow: auto;
 }
 
 .data-list li {
-  padding: 12px 14px;
+  padding: 7px 9px;
   border: 1px solid var(--border);
   background: #ffffff;
 }
@@ -326,7 +335,7 @@ button {
 
 .data-list li small {
   display: block;
-  margin-top: 4px;
+  margin-top: 2px;
   color: var(--muted);
 }
 
@@ -347,6 +356,8 @@ button {
 @media (max-width: 1180px) {
   .layout {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
   }
 
   .panel,

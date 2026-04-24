@@ -27,15 +27,15 @@
       <div class="block">
         <h3>Scenarios</h3>
         <div class="scenario-grid">
-          <button type="button" class="btn-outline" data-scenario="sample">Sample</button>
-          <button type="button" class="btn-outline" data-scenario="chain">Safe Chain</button>
-          <button type="button" class="btn-outline" data-scenario="cursed">Cursed Test</button>
-          <button type="button" class="btn-outline" data-scenario="dense">Dense Demo</button>
+          <button type="button" class="btn-outline" data-scenario="sample">Scenario 1</button>
+          <button type="button" class="btn-outline" data-scenario="chain">Scenario 2</button>
+          <button type="button" class="btn-outline" data-scenario="cursed">Scenario 3</button>
+          <button type="button" class="btn-outline" data-scenario="dense">Scenario 4</button>
         </div>
       </div>
 
       <form id="addEdgeForm" class="block">
-        <h3>Add Edge</h3>
+        <h3>addEdge()</h3>
         <div class="row">
           <label>
             <span>From</span>
@@ -50,20 +50,20 @@
           <span>Weight</span>
           <input id="addWeight" type="number" step="1" required>
         </label>
-        <button type="submit" class="btn-primary">Add Edge</button>
+        <button type="submit" class="btn-primary">Add</button>
       </form>
 
       <form id="removeEdgeForm" class="block">
-        <h3>Remove Edge</h3>
+        <h3>removeEdge()</h3>
         <label>
           <span>Edge ID</span>
           <select id="removeEdgeId"></select>
         </label>
-        <button type="submit" class="btn-danger">Remove Edge</button>
+        <button type="submit" class="btn-danger">Delete</button>
       </form>
 
       <form id="updateWeightForm" class="block">
-        <h3>Update Weight</h3>
+        <h3>updateWeight()</h3>
         <label>
           <span>Edge ID</span>
           <select id="updateEdgeId"></select>
@@ -72,7 +72,7 @@
           <span>New Weight</span>
           <input id="updateWeightValue" type="number" step="1" required>
         </label>
-        <button type="submit" class="btn-primary">Update Weight</button>
+        <button type="submit" class="btn-primary">Update</button>
       </form>
 
       <form id="searchNodeForm" class="block">
@@ -83,6 +83,14 @@
         </label>
         <button type="submit" class="btn-outline">Show Connected Edges</button>
       </form>
+
+      <div class="block">
+        <h3>More Functions</h3>
+        <div class="scenario-grid">
+          <button type="button" class="btn-outline" id="btnComputeMST">computeMST()</button>
+          <button type="button" class="btn-outline" id="btnDetectAnomaly">detectAnomaly()</button>
+        </div>
+      </div>
 
       <div class="block">
         <h3>Search Result</h3>
