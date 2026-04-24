@@ -1,92 +1,18 @@
-================================================================
-GREED ISLAND: THE SPIDER'S WEB
-STRATEGY FILE
-================================================================
+Spider's Web
+============
 
-================================================================
-1. MST ALGORITHM — KRUSKAL
-================================================================
+Start with 13 nodes and the 2 sample PDF edges.
 
-Kruskal's algorithm builds the Minimum Spanning Tree by:
+Files:
+- `addEdge.js`: adds an edge
+- `removeEdge.js`: removes an edge by id
+- `updateWeight.js`: changes edge weight
+- `detectAnomaly.js`: finds `weight <= 0`
+- `computeMST.js`: runs Kruskal with `weight > 0`
+- `app.js`: UI, scenarios, rendering, and events
 
-  Step 1: Sort all valid edges by weight (ascending)
-  Step 2: Initialize each node as its own component (Union-Find)
-  Step 3: For each edge (smallest first):
-            - Find root of node A
-            - Find root of node B
-            - If different roots: add edge to MST, union them
-            - If same root: skip (would create a cycle)
-  Step 4: Stop when MST has (nodes - 1) edges
+Rule:
+- cursed edge: `weight <= 0`
+- MST edge: only `weight > 0`
 
-  Time complexity: O(E log E) where E = number of edges
-
-Union-Find with path compression:
-  find(x): if parent[x] != x, recurse and compress path
-  union(x,y): connect roots of x and y
-
-================================================================
-2. OPTIMIZATION STRATEGY
-================================================================
-
-After each graph operation (add/remove/update):
-
-  - Cursed edges are filtered FIRST before sorting
-  - Only valid edges enter the sort phase
-  - Union-Find resets per computation (lightweight)
-  - No full graph rebuild — only edges array is modified
-  - MST is recomputed in O(E log E) on each change
-
-This avoids full reconstruction while remaining correct
-after every single operation.
-
-================================================================
-3. ANOMALY DETECTION LOGIC
-================================================================
-
-The cursed edge rule from the challenge:
-  "In a stable system, all weights are expected to be
-   strictly positive. Any deviation should be treated
-   with caution."
-
-Detection rule:
-  For each edge in the graph:
-    if edge.weight <= 0:
-      mark as CURSED
-      exclude from MST computation
-      add to anomaly report
-
-Suspicion levels:
-  weight <= 0        : HIGH   — Cursed, excluded from MST
-  weight > 17        : MEDIUM — Unusually high, flagged
-  1 <= weight <= 17  : LOW    — Normal range
-
-The cursed edge in the initial structure:
-  Edge from node 5 to node 10 with weight -3
-  Reason: negative weight violates the strictly positive rule
-  Action: excluded from MST, shown in red on graph
-
-================================================================
-4. REQUIRED FUNCTIONS SUMMARY
-================================================================
-
-addEdge(graph, edge)
-  Pushes new edge object to graph.edges array
-  Triggers MST recomputation
-
-removeEdge(graph, edgeId)
-  Filters out edge with matching id
-  Triggers MST recomputation
-
-updateWeight(graph, edgeId, newWeight)
-  Finds edge by id, updates weight field
-  Triggers MST recomputation
-
-computeMST(graph)
-  Runs Kruskal on valid (non-cursed) edges
-  Returns array of MST edge objects
-
-detectAnomaly(graph)
-  Scans all edges for weight <= 0
-  Returns array of { edge, reason } objects
-
-================================================================
+After each action, the graph, MST, total weight, and anomaly report refresh.

@@ -1,117 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Greed Island: The Spider's Web</title>
-<link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greed Island: The Spider's Web</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
-<header>
-  <h1>Greed Island: The Spider's Web</h1>
-  <span class="subtitle">Phantom Troupe Network — 13 Nodes</span>
-  <div class="legend" aria-label="Edge legend">
-    <div class="legend-item"><span class="legend-swatch green"></span>MST edge</div>
-    <div class="legend-item"><span class="legend-swatch red"></span>Cursed edge</div>
-    <div class="legend-item"><span class="legend-swatch gray"></span>Normal edge</div>
-  </div>
-</header>
-
-<div class="app">
-
-  <!-- LEFT PANEL -->
-  <div class="panel">
-    <div class="panel-title">Instructions</div>
-
-    <div class="instructions">
-      <h3>Challenge</h3>
-      <p>Build a dynamic graph with <strong>13 nodes</strong>. Each node is a Phantom Troupe member, each edge is a Nen connection with a weight from <strong>1 to 20</strong>.</p>
-
-      <h3>Rules</h3>
-      <ul>
-        <li><strong>Add Edge:</strong> connect two nodes with a weight</li>
-        <li><strong>Remove Edge:</strong> delete a connection by ID</li>
-        <li><strong>Search Node:</strong> see all connections of a node</li>
-        <li><strong>MST (Kruskal):</strong> find the minimum spanning tree</li>
-        <li><span class="cursed">Cursed Edge:</span> any edge with weight ≤ 0 is cursed and excluded from MST</li>
-      </ul>
-
-      <h3>How to use</h3>
-      <ol>
-        <li>Enter <strong>From</strong>, <strong>To</strong>, and <strong>Weight</strong>, then click <strong>Add</strong></li>
-        <li>Enter an <strong>Edge ID</strong>, then click <strong>Remove</strong></li>
-        <li>Enter a <strong>Node number</strong>, then click <strong>Search</strong></li>
-        <li>The MST updates automatically after every action</li>
-        <li>Cursed edges appear in <span class="cursed">RED</span> and are excluded</li>
-      </ol>
+  <header class="topbar">
+    <div>
+      <h1>Greed Island: The Spider's Web</h1>
+      <p class="subtitle">Phantom Troupe Network - 13 Nodes</p>
     </div>
+    <div class="legend" aria-label="Edge legend">
+      <span><i class="swatch mst"></i>MST edge</span>
+      <span><i class="swatch cursed"></i>Cursed edge</span>
+      <span><i class="swatch normal"></i>Normal edge</span>
+      <span><i class="swatch search"></i>Search match</span>
+    </div>
+  </header>
 
-    <div class="panel-title">Operations</div>
+  <main class="layout">
+    <section class="panel controls-panel">
+      <h2>Operations</h2>
 
-    <div class="form-group">
-      <label for="addFrom">Add Edge</label>
-      <div class="row">
-        <input type="number" id="addFrom" placeholder="From" min="1" max="13">
-        <input type="number" id="addTo" placeholder="To" min="1" max="13">
+      <div class="block">
+        <h3>Scenarios</h3>
+        <div class="scenario-grid">
+          <button type="button" class="btn-outline" data-scenario="sample">Sample</button>
+          <button type="button" class="btn-outline" data-scenario="chain">Safe Chain</button>
+          <button type="button" class="btn-outline" data-scenario="cursed">Cursed Test</button>
+          <button type="button" class="btn-outline" data-scenario="dense">Dense Demo</button>
+        </div>
       </div>
-      <div class="form-group" style="margin-top:10px; margin-bottom:0">
-        <input type="number" id="addWeight" placeholder="Weight (1-20)" min="-5" max="20">
+
+      <form id="addEdgeForm" class="block">
+        <h3>Add Edge</h3>
+        <div class="row">
+          <label>
+            <span>From</span>
+            <input id="addFrom" type="number" min="1" max="13" required>
+          </label>
+          <label>
+            <span>To</span>
+            <input id="addTo" type="number" min="1" max="13" required>
+          </label>
+        </div>
+        <label>
+          <span>Weight</span>
+          <input id="addWeight" type="number" step="1" required>
+        </label>
+        <button type="submit" class="btn-primary">Add Edge</button>
+      </form>
+
+      <form id="removeEdgeForm" class="block">
+        <h3>Remove Edge</h3>
+        <label>
+          <span>Edge ID</span>
+          <select id="removeEdgeId"></select>
+        </label>
+        <button type="submit" class="btn-danger">Remove Edge</button>
+      </form>
+
+      <form id="updateWeightForm" class="block">
+        <h3>Update Weight</h3>
+        <label>
+          <span>Edge ID</span>
+          <select id="updateEdgeId"></select>
+        </label>
+        <label>
+          <span>New Weight</span>
+          <input id="updateWeightValue" type="number" step="1" required>
+        </label>
+        <button type="submit" class="btn-primary">Update Weight</button>
+      </form>
+
+      <form id="searchNodeForm" class="block">
+        <h3>Search Node</h3>
+        <label>
+          <span>Node Number</span>
+          <input id="searchNode" type="number" min="1" max="13" required>
+        </label>
+        <button type="submit" class="btn-outline">Show Connected Edges</button>
+      </form>
+
+      <div class="block">
+        <h3>Search Result</h3>
+        <div id="searchResult" class="message muted">Pick a node from 1 to 13 to list all connected edges.</div>
       </div>
-      <button id="btnAdd" class="btn-add">Add Connection</button>
-    </div>
 
-    <div class="section">
-      <label for="removeId">Remove Edge by ID</label>
-      <input type="number" id="removeId" placeholder="Edge ID">
-      <button id="btnRemove" class="btn-remove">Remove Connection</button>
-    </div>
-
-    <div class="section">
-      <label for="searchNode">Search Node</label>
-      <input type="number" id="searchNode" placeholder="Node (1-13)" min="1" max="13">
-      <button id="btnSearch" class="btn-search">Search</button>
-    </div>
-
-    <div class="section">
-      <label>Restore Initial Web</label>
-      <button id="btnReset" class="btn-reset">Reset Graph</button>
-    </div>
-
-    <div class="section">
-      <div class="panel-title">All Edges</div>
-      <div class="edge-list" id="edgeList"></div>
-    </div>
-  </div>
-
-  <!-- CANVAS -->
-  <div class="canvas-wrap">
-    <canvas id="graph"></canvas>
-    <div class="canvas-hint">Click an edge to inspect · Drag a node to move</div>
-  </div>
-
-  <!-- RIGHT PANEL -->
-  <div class="panel">
-    <div class="panel-title">MST Result</div>
-    <div id="mstList"></div>
-
-    <div class="section">
-      <div class="panel-title">Anomaly Report</div>
-      <div id="anomalyReport"></div>
-    </div>
-
-    <div class="section">
-      <div class="panel-title">Edge Inspector</div>
-      <div class="info-box" id="inspector">
-        <span class="key">Click an edge to inspect it.</span>
+      <div class="block">
+        <h3>Status</h3>
+        <div id="statusMessage" class="message"></div>
       </div>
-    </div>
-  </div>
+    </section>
 
-</div>
+    <section class="panel graph-panel">
+      <h2>Graph</h2>
+      <div class="graph-stage">
+        <svg id="graphSvg" viewBox="0 0 760 760" role="img" aria-label="Interactive graph of 13 nodes"></svg>
+      </div>
+      <div class="block">
+        <h3>Edge Inspector</h3>
+        <div id="edgeInspector" class="inspector muted">Click an edge to see its details.</div>
+      </div>
+    </section>
 
-<script src="js/graph.js"></script>
-<script src="js/render.js"></script>
-<script src="js/main.js"></script>
+    <section class="panel insights-panel">
+      <h2>MST</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <span>Stable edges in MST</span>
+          <strong id="mstEdgeCount">0</strong>
+        </div>
+        <div class="stat-box">
+          <span>Total MST weight</span>
+          <strong id="mstTotalWeight">0</strong>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="title-row">
+          <h3>Current MST Edges</h3>
+          <span id="mstStateBadge" class="badge">Incomplete</span>
+        </div>
+        <div id="mstSummary" class="message muted"></div>
+        <div class="mini-graph-stage">
+          <svg id="mstSvg" viewBox="0 0 760 760" role="img" aria-label="Current minimum spanning tree visualization"></svg>
+        </div>
+        <ul id="mstEdgesList" class="data-list"></ul>
+      </div>
+
+      <div class="block">
+        <h3>All Edges</h3>
+        <ul id="allEdgesList" class="data-list"></ul>
+      </div>
+
+      <div class="block">
+        <h3>Anomaly Report</h3>
+        <div id="anomalySummary" class="message muted"></div>
+        <ul id="anomalyList" class="data-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
