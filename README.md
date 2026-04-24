@@ -3,7 +3,7 @@
 Local SPA for a 13-node weighted graph challenge.
 
 ## Run
-Use a local server because the JavaScript uses ES modules.
+Use a local server:
 
 ```bash
 python3 -m http.server 4174
@@ -15,14 +15,22 @@ Open:
 http://127.0.0.1:4174/index.html
 ```
 
-## Features
-- add, remove, and update edges
-- search connected edges by node
-- load `Scenario 1` to `Scenario 4`
-- run `computeMST()` and `detectAnomaly()` from buttons
-- show full graph in SVG
-- show MST in SVG and list form
-- mark `weight <= 0` edges as cursed
+## Summary
+The app starts with 13 nodes and only the 2 sample edges from the challenge.
+The user can build the graph from the UI.
+
+It supports:
+- `addEdge(graph, edge)`
+- `removeEdge(graph, edgeId)`
+- `updateWeight(graph, edgeId, newWeight)`
+- `computeMST(graph)`
+- `detectAnomaly(graph)`
+
+Rules:
+- `weight > 0` is valid
+- `weight <= 0` is cursed
+- cursed edges are excluded from MST
+- MST is recomputed after every change
 
 ## Files
 - `index.html`
@@ -33,5 +41,3 @@ http://127.0.0.1:4174/index.html
 - `js/computeMST.js`
 - `js/detectAnomaly.js`
 - `js/app.js`
-- `strategy.txt`
-- `file-1777022025206-875611518.pdf`
